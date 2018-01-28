@@ -1,0 +1,9 @@
+main: com.minestom.Spigot.BadBoy
+author: By_Jack
+name: BadBoy
+version: 1.0.0
+commands:
+  report:
+    usage: /pepe
+  badboy:
+    usage: /pepe
