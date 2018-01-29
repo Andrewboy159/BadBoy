@@ -1,0 +1,9 @@
+reports:
+  guildId: ''
+  channelId: ''
+donation:
+  guildId: ''
+  channelId: ''
+
+server: 'Survival'
+token: ''

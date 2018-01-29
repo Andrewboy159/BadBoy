@@ -5,7 +5,6 @@ import com.minestom.Spigot.BadBoy;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import org.bukkit.plugin.Plugin;
 
 import java.awt.*;
 
@@ -31,18 +30,5 @@ public class UsageMessage {
                 channel.sendMessage(embedBuilder.build()).queue();
                 break;
         }
-    }
-    public static void sendReportMessage(String reportedUser, String user, String reason, BadBoy plugin) {
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        Guild guild = BadBoyBot.api.getGuildById(plugin.getConfigString("guildId"));
-        MessageChannel channel = guild.getTextChannelById(plugin.getConfigString("channelId"));
-
-        embedBuilder.setColor(Color.RED);
-        embedBuilder.addField("Reported User", reportedUser, false);
-        embedBuilder.addField("Reported By", user, false);
-        embedBuilder.addField("Reason", reason, false);
-        embedBuilder.addField("Server Issued", plugin.getConfigString("server"), false);
-
-        channel.sendMessage(embedBuilder.build()).queue();
     }
 }

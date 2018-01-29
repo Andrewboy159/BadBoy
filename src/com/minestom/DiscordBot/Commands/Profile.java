@@ -14,7 +14,7 @@ public class Profile {
         String game = member.getGame() != null ? member.getGame().getName() : "Nothing";
 
         if (member.getUser().isBot()){
-            embedBuilder.setDescription("Why do you wanna see the profile if this bot...?");
+            embedBuilder.setDescription("Why do you wanna see the profile of this bot...?");
             embedBuilder.setColor(Color.RED);
             channel.sendMessage(embedBuilder.build()).queue();
             return;

@@ -44,7 +44,7 @@ public class MessageEvent extends ListenerAdapter {
         }
 
         if (cmd.equals("help")) {
-            Help.sendHelpMessage(member);
+            Help.sendHelpMessage(member, channel);
         }
 
         if (cmd.equals("clear")) {
@@ -65,8 +65,7 @@ public class MessageEvent extends ListenerAdapter {
                     "\nChannel ID: " + message.getChannel().getId());
             embedBuilder.setColor(Color.RED);
 
-            Message setup = channel.sendMessage(embedBuilder.build()).complete();
-            setup.delete().queueAfter(30, TimeUnit.SECONDS);
+            channel.sendMessage(embedBuilder.build()).complete().delete().queueAfter(30, TimeUnit.SECONDS);
         }
     }
 }

@@ -1,60 +1,72 @@
 package com.minestom.Spigot;
 
 import com.minestom.DiscordBot.BadBoyBot;
-import com.minestom.DiscordBot.Utilities.UsageMessage;
+import com.minestom.Spigot.Commands.Report;
+import com.minestom.Spigot.Integrations.AdvancedBan;
+import com.minestom.Spigot.Integrations.CraftingStore;
+import com.minestom.Spigot.Managers.DiscordConfig;
+import com.minestom.Spigot.Managers.LanguageManager;
+import com.minestom.Spigot.Managers.MessageManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class BadBoy extends JavaPlugin {
 
-    private Map<String, String> config = new HashMap<>();
-
-    public String getConfigString(String string) {
-        return config.get(string);
-    }
+    private DiscordConfig discordConfig;
+    private LanguageManager languageManager;
+    private MessageManager messageManager;
 
     @Override
     public void onEnable() {
+
+        languageManager = new LanguageManager(this);
+        discordConfig = new DiscordConfig(this);
+        messageManager = new MessageManager(this, languageManager);
+
+        languageManager.setupLanguage();
+        discordConfig.setupFileConfig();
         saveDefaultConfig();
+        setupCommands();
+        setupListeners();
+
         try {
-            BadBoyBot.main(getConfig().getString("discord.token"));
+            BadBoyBot.main(discordConfig.getString("token"));
+            getLogger().info("The bot is online and its ready to use.");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        config.put("server", getConfig().getString("discord.server"));
-        config.put("guildId", getConfig().getString("discord.guildId"));
-        config.put("channelId", getConfig().getString("discord.channelId"));
+
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("report")) {
-            if (args.length <= 1) return true;
-
-            StringBuilder reason = new StringBuilder();
-            for (int i = 1; i < args.length; i++) {
-                reason.append(args[i]).append(" ");
-            }
-            UsageMessage.sendReportMessage(args[0], sender.getName(), reason.toString().trim(), this);
-        }
         if (command.getName().equalsIgnoreCase("badboy")) {
-            if (args.length == 1 && args[0].equalsIgnoreCase("debug")) {
-                sender.sendMessage(config.toString());
-            }
             if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-                reloadConfig();
-                config.clear();
-                config.put("server", getConfig().getString("discord.server"));
-                config.put("guildId", getConfig().getString("discord.guildId"));
-                config.put("channelId", getConfig().getString("discord.channelId"));
+                languageManager.reloadFile();
+                discordConfig.reloadFile();
+                messageManager.sendMessage(sender, languageManager.getMessage("reload_plugin"), PrefixType.NONE);
             }
         }
         return true;
     }
 
+    private void setupCommands() {
+        getCommand("report").setExecutor(new Report(this, messageManager, languageManager));
+    }
 
+    private void setupListeners() {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        if (getConfig().getBoolean("Integrations.CraftingStore"))
+            pluginManager.registerEvents(new CraftingStore(this), this);
+        if (getConfig().getBoolean("Integrations.AdvancedBans"))
+            pluginManager.registerEvents(new AdvancedBan(this), this);
+
+    }
+
+    public String getDiscordConfigString(String string) {
+        return discordConfig.getString(string);
+    }
 }

@@ -1,0 +1,6 @@
+playerNotOnline: '&7This player is not &aOnline &7please try again.'
+
+reports_prefix: '&e&lREPORTS: '
+reports_wrongUsage: '&7Correct Usage: /report <player> <reason>'
+
+reload_plugin: '&e&lRELOAD: &7The config and language had been successfully reloaded.'
