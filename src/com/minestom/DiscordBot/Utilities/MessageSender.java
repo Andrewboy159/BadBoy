@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class MessageSender {
 
-    public static void sendReportMessage(String reportedUser, String user, String reason, BadBoy plugin) {
+    public static void sendReportMessage(String reportedUser, String user, String reason, BadBoy plugin, boolean server) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         Guild guild = BadBoyBot.api.getGuildById(plugin.getDiscordConfigString("reports.guildId"));
         MessageChannel channel = guild.getTextChannelById(plugin.getDiscordConfigString("reports.channelId"));
@@ -19,7 +19,7 @@ public class MessageSender {
         embedBuilder.addField("Reported User", reportedUser, false);
         embedBuilder.addField("Reported By", user, false);
         embedBuilder.addField("Reason", reason, false);
-        embedBuilder.addField("Server Issued", plugin.getDiscordConfigString("server"), false);
+        if (server) embedBuilder.addField("Server Issued", plugin.getDiscordConfigString("server"), false);
 
         channel.sendMessage(embedBuilder.build()).queue();
     }
@@ -49,6 +49,17 @@ public class MessageSender {
         embedBuilder.addField("Type", type, true);
         embedBuilder.addField("Reason", reason, false);
         embedBuilder.setFooter("Remember to follow the rules.", null);
+
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
+
+    public static void sendVoteMessage(String userName, String service, BadBoy plugin) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        Guild guild = BadBoyBot.api.getGuildById(plugin.getDiscordConfigString("vote.guildId"));
+        MessageChannel channel = guild.getTextChannelById(plugin.getDiscordConfigString("vote.channelId"));
+
+        embedBuilder.setColor(Color.getHSBColor(5, 193, 240));
+        embedBuilder.setDescription(plugin.getLangString("d-on_vote").replace("{userName}", userName).replace("{serviceName}", service));
 
         channel.sendMessage(embedBuilder.build()).queue();
     }

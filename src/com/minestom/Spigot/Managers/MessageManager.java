@@ -23,7 +23,7 @@ public class MessageManager {
     private String getPrefix(PrefixType prefixType) {
 
         if (prefixType == PrefixType.REPORTS) {
-            return languageManager.getMessage("reports_prefix");
+            return languageManager.getMessage("mc-reports_prefix");
         } else if (prefixType == PrefixType.NONE) return "";
 
         return null;

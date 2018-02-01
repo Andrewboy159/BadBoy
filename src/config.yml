@@ -1,3 +1,6 @@
 Integrations:
   CraftingStore: false
-  AdvancedBans: false
+  AdvancedBan: false
+  LiteBans: false
+LogDiscordActions: true
+Version: 1

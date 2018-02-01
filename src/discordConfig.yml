@@ -1,9 +1,16 @@
 reports:
-  guildId: ''
-  channelId: ''
+  guildId: '123456789'
+  channelId: '123456789'
 donation:
-  guildId: ''
-  channelId: ''
+  guildId: '123456789'
+  channelId: '123456789'
+vote:
+  guildId: '123456789'
+  channelId: '123456789'
+
+defaultIp: 'play.my-server.com'
 
 server: 'Survival'
-token: ''
+token: 'super secret token'
+
+version: 1

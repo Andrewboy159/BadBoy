@@ -1,6 +1,26 @@
-playerNotOnline: '&7This player is not &aOnline &7please try again.'
+# on minecraft messages
 
-reports_prefix: '&e&lREPORTS: '
-reports_wrongUsage: '&7Correct Usage: /report <player> <reason>'
+mc-playerNotOnline: '&7This player is not &aOnline &7please try again.'
 
-reload_plugin: '&e&lRELOAD: &7The config and language had been successfully reloaded.'
+mc-reports_prefix: '&e&lREPORTS: &7'
+mc-broadcast_prefix: '&e&lBROADCAST: &7'
+
+
+mc-reports_wrongUsage: '&7Correct Usage: /report <player> <reason>'
+mc-reports_sent: '&7Your report has been sent to the staff and will be reviewed.'
+mc-reports_receive: '&a{reporter} &7has reported &a{reported}. &cReason: &7{reason}'
+
+mc-reload_plugin: '&e&lRELOAD: &7The config and language had been successfully reloaded.'
+
+# on discord messages
+
+d-on_vote: '{userName} has voted for the server in {serviceName}.'
+
+d-reports_reported_user: 'Reported User'
+d-reports_reported_by: 'Reported By'
+d-reports_reason: 'Reason'
+d-reports_server: 'Server Issued'
+
+d-reload_plugin: 'The plugin''s config and language had been successfully reloaded.'
+
+version: 1

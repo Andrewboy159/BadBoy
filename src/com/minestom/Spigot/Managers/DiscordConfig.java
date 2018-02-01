@@ -6,35 +6,23 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DiscordConfig {
 
-    private Map<String, String> configStrings;
+    private Map<Object, Object> configStrings;
 
     private File file;
     private FileConfiguration fileConfiguration;
 
-    private BadBoy plugin;
 
     public DiscordConfig(BadBoy plugin) {
-        this.plugin = plugin;
         configStrings = new HashMap<>();
         file = new File(plugin.getDataFolder(), "discordConfig.yml");
         fileConfiguration = new YamlConfiguration();
-    }
-
-    public void setupFileConfig() {
-
         if (!file.exists()) plugin.saveResource("discordConfig.yml", false);
-
-        try {
-            fileConfiguration.load(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        loadConfigMap();
+        reloadFile();
     }
 
     private void loadConfigMap() {
@@ -45,19 +33,33 @@ public class DiscordConfig {
         configStrings.put("reports.channelId", fileConfiguration.getString("reports.channelId"));
         configStrings.put("donation.guildId", fileConfiguration.getString("donation.guildId"));
         configStrings.put("donation.channelId", fileConfiguration.getString("donation.channelId"));
+        configStrings.put("vote.guildId", fileConfiguration.getString("vote.guildId"));
+        configStrings.put("vote.channelId", fileConfiguration.getString("vote.channelId"));
     }
 
     public void reloadFile() {
         try {
-            loadConfigMap();
             fileConfiguration.load(file);
+            loadConfigMap();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public String getString(String path) {
-        return configStrings.get(path);
+        return (String) configStrings.get(path);
+    }
+
+    public List<String> getStringList(String path) {
+        return (List<String>) configStrings.get(path);
+    }
+
+    public boolean getBoolean(String path) {
+        return (boolean) configStrings.get(path);
+    }
+
+    public double getDouble(String path) {
+        return (double) configStrings.get(path);
     }
 
 }

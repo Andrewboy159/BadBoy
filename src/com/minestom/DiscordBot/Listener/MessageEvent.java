@@ -1,23 +1,29 @@
 package com.minestom.DiscordBot.Listener;
 
 import com.minestom.DiscordBot.BadBoyBot;
-import com.minestom.DiscordBot.Commands.ClearChat;
-import com.minestom.DiscordBot.Commands.FortuneBall;
-import com.minestom.DiscordBot.Commands.Help;
-import com.minestom.DiscordBot.Commands.Profile;
+import com.minestom.DiscordBot.Commands.*;
 import com.minestom.DiscordBot.Utilities.MessageType;
 import com.minestom.DiscordBot.Utilities.UsageMessage;
+import com.minestom.Spigot.BadBoy;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 public class MessageEvent extends ListenerAdapter {
+
+    private BadBoy badBoy;
+
+    public MessageEvent(BadBoy badBoy) {
+        this.badBoy = badBoy;
+    }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -48,8 +54,13 @@ public class MessageEvent extends ListenerAdapter {
         }
 
         if (cmd.equals("clear")) {
-            if (args.length == 2) ClearChat.clearMessages(channel, Integer.parseInt(args[1]));
-            else UsageMessage.sendUsageMessage(channel, MessageType.CLEAR_CHAT);
+            if (member.hasPermission(Permission.MESSAGE_MANAGE))
+                if (args.length == 2)
+                    if (StringUtils.isNumeric(args[1]))
+                        ClearChat.clearMessages(channel, Integer.parseInt(args[1]));
+                    else UsageMessage.sendUsageMessage(channel, MessageType.CLEAR_CHAT);
+                else UsageMessage.sendUsageMessage(channel, MessageType.CLEAR_CHAT);
+            else message.delete().queue();
         }
 
         if (cmd.equals("8ball")) {
@@ -57,7 +68,42 @@ public class MessageEvent extends ListenerAdapter {
             else UsageMessage.sendUsageMessage(channel, MessageType.FORTUNE);
         }
 
-        if (cmd.equals("mcsetup")) {
+        if (cmd.equals("server")) {
+            Server.sendServerBanner(channel, args);
+        }
+
+        if (cmd.equals("report")) {
+            Member reportedUser = message.getMentionedMembers().get(0);
+            Report.sendReport(channel, args, reportedUser, member, badBoy);
+        }
+
+        if (cmd.equals("reload")) {
+            message.delete().queue();
+            if (member.hasPermission(Permission.ADMINISTRATOR))
+                Reload.reloadPlugin(badBoy, channel);
+        }
+
+        if (cmd.equals("broadcast") || cmd.equals("bc")) {
+            message.delete().queue();
+            if (member.hasPermission(Permission.ADMINISTRATOR))
+                if (args.length < 2) {
+                    UsageMessage.sendUsageMessage(channel, MessageType.BROADCAST);
+                    return;
+                }
+            BroadCast.sendMessage(args, badBoy, channel);
+        }
+
+        if (cmd.equals("stats")) {
+            message.delete().queue();
+            if (args.length < 2) {
+                UsageMessage.sendUsageMessage(channel, MessageType.BROADCAST);
+                return;
+            }
+            Stats.sendStatsMessage(channel, args, badBoy);
+        }
+
+        if (cmd.equals("info")) {
+            message.delete().queue();
             if (!member.isOwner()) return;
             EmbedBuilder embedBuilder = new EmbedBuilder();
 

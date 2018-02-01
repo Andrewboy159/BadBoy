@@ -4,5 +4,6 @@ public enum MessageType {
     FORTUNE,
     CLEAR_CHAT,
     USER_NOT_FOUND,
-    REPORT
+    REPORT,
+    BROADCAST
 }

@@ -1,7 +1,6 @@
 package com.minestom.Spigot.Commands;
 
 import com.minestom.DiscordBot.Utilities.MessageSender;
-import com.minestom.DiscordBot.Utilities.UsageMessage;
 import com.minestom.Spigot.BadBoy;
 import com.minestom.Spigot.Managers.LanguageManager;
 import com.minestom.Spigot.Managers.MessageManager;
@@ -27,12 +26,12 @@ public class Report implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String string, String[] args) {
         if (command.getName().equalsIgnoreCase("report")) {
             if (args.length <= 1) {
-                messageManager.sendMessage(sender, languageManager.getMessage("reports_wrongUsage"), PrefixType.REPORTS);
+                messageManager.sendMessage(sender, languageManager.getMessage("mc-reports_wrongUsage"), PrefixType.REPORTS);
                 return true;
             }
 
             if (Bukkit.getPlayer(args[0]) == null) {
-                messageManager.sendMessage(sender, languageManager.getMessage("playerNotOnline"), PrefixType.REPORTS);
+                messageManager.sendMessage(sender, languageManager.getMessage("mc-playerNotOnline"), PrefixType.REPORTS);
                 //return true;
             }
 
@@ -41,7 +40,14 @@ public class Report implements CommandExecutor {
                 reason.append(args[i]).append(" ");
             }
 
-            MessageSender.sendReportMessage(args[0], sender.getName(), reason.toString().trim(), plugin);
+            MessageSender.sendReportMessage(args[0], sender.getName(), reason.toString().trim(), plugin, true);
+            messageManager.sendMessage(sender, languageManager.getMessage("mc-reports_sent"), PrefixType.REPORTS);
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                if (player.hasPermission("badboy.reports.see"))
+                    messageManager.sendMessage(sender, languageManager.getMessage("mc-reports_receive")
+                            .replace("{reporter}", sender.getName()).replace("{reported}", args[0])
+                            .replace("{reason}", reason), PrefixType.REPORTS);
+            });
         }
 
         return true;

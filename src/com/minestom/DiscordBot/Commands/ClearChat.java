@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.MessageHistory;
 
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ClearChat {
 
@@ -22,7 +23,7 @@ public class ClearChat {
 
         messages.forEach(message -> channel.deleteMessageById(message.getId()).queue());
 
-        channel.sendMessage(embedBuilder.build()).queue();
+        channel.sendMessage(embedBuilder.build()).complete().delete().queueAfter(5, TimeUnit.SECONDS);
     }
 
 }

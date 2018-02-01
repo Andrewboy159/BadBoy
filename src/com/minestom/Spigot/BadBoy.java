@@ -4,6 +4,8 @@ import com.minestom.DiscordBot.BadBoyBot;
 import com.minestom.Spigot.Commands.Report;
 import com.minestom.Spigot.Integrations.AdvancedBan;
 import com.minestom.Spigot.Integrations.CraftingStore;
+import com.minestom.Spigot.Integrations.LiteBans;
+import com.minestom.Spigot.Integrations.Votifier;
 import com.minestom.Spigot.Managers.DiscordConfig;
 import com.minestom.Spigot.Managers.LanguageManager;
 import com.minestom.Spigot.Managers.MessageManager;
@@ -15,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BadBoy extends JavaPlugin {
 
+    public boolean log = false;
     private DiscordConfig discordConfig;
     private LanguageManager languageManager;
     private MessageManager messageManager;
@@ -26,14 +29,14 @@ public class BadBoy extends JavaPlugin {
         discordConfig = new DiscordConfig(this);
         messageManager = new MessageManager(this, languageManager);
 
-        languageManager.setupLanguage();
-        discordConfig.setupFileConfig();
         saveDefaultConfig();
         setupCommands();
         setupListeners();
 
+        log = getConfig().getBoolean("LogDiscordActions");
+
         try {
-            BadBoyBot.main(discordConfig.getString("token"));
+            BadBoyBot.main(discordConfig.getString("token"), this);
             getLogger().info("The bot is online and its ready to use.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,12 +48,17 @@ public class BadBoy extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("badboy")) {
             if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-                languageManager.reloadFile();
-                discordConfig.reloadFile();
-                messageManager.sendMessage(sender, languageManager.getMessage("reload_plugin"), PrefixType.NONE);
+                reloadPlugin();
+                messageManager.sendMessage(sender, languageManager.getMessage("mc-reload_plugin"), PrefixType.NONE);
             }
         }
         return true;
+    }
+
+    public void reloadPlugin(){
+        reloadConfig();
+        languageManager.reloadFile();
+        discordConfig.reloadFile();
     }
 
     private void setupCommands() {
@@ -59,14 +67,30 @@ public class BadBoy extends JavaPlugin {
 
     private void setupListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if (getConfig().getBoolean("Integrations.CraftingStore"))
+        if (getConfig().getBoolean("Integrations.CraftingStore") && pluginManager.isPluginEnabled("CraftingStore")) {
             pluginManager.registerEvents(new CraftingStore(this), this);
-        if (getConfig().getBoolean("Integrations.AdvancedBans"))
+            getLogger().info("CraftingStore integration enabled.");
+        }
+        if (getConfig().getBoolean("Integrations.AdvancedBan") && pluginManager.isPluginEnabled("AdvancedBan")) {
             pluginManager.registerEvents(new AdvancedBan(this), this);
+            getLogger().info("AdvancedBan integration enabled.");
+        }
+        if (getConfig().getBoolean("Integrations.LiteBans") && pluginManager.isPluginEnabled("LiteBans")) {
+            new LiteBans(this);
+            getLogger().info("LiteBans integration enabled.");
+        }
+        if (getConfig().getBoolean("Integrations.Votifier") && pluginManager.isPluginEnabled("Votifier")) {
+            pluginManager.registerEvents(new Votifier(this), this);
+            getLogger().info("Votifier integration enabled.");
+        }
 
     }
 
     public String getDiscordConfigString(String string) {
         return discordConfig.getString(string);
+    }
+
+    public String getLangString(String string) {
+        return languageManager.getMessage(string);
     }
 }

@@ -8,6 +8,7 @@
     <artifactId>badboy</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
+        <!--JDA-->
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
