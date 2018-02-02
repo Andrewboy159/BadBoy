@@ -40,8 +40,8 @@ public class MessageSender {
 
     public static void sendPunishmentMessage(String userName, String operator, String type, String reason, BadBoy plugin) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        Guild guild = BadBoyBot.api.getGuildById(plugin.getDiscordConfigString("donation.guildId"));
-        MessageChannel channel = guild.getTextChannelById(plugin.getDiscordConfigString("donation.channelId"));
+        Guild guild = BadBoyBot.api.getGuildById(plugin.getDiscordConfigString("punishments.guildId"));
+        MessageChannel channel = guild.getTextChannelById(plugin.getDiscordConfigString("punishments.channelId"));
 
         embedBuilder.setColor(Color.getHSBColor(5, 193, 240));
         embedBuilder.setDescription(userName + " has been punished.");

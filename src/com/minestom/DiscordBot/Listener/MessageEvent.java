@@ -47,10 +47,13 @@ public class MessageEvent extends ListenerAdapter {
                 return;
             }
             Profile.sendProfileMessage(channel, member);
+            return;
         }
 
         if (cmd.equals("help")) {
-            Help.sendHelpMessage(member, channel);
+            message.delete().queue();
+            Help.sendHelpMessage(member, channel, badBoy);
+            return;
         }
 
         if (cmd.equals("clear")) {
@@ -61,26 +64,32 @@ public class MessageEvent extends ListenerAdapter {
                     else UsageMessage.sendUsageMessage(channel, MessageType.CLEAR_CHAT);
                 else UsageMessage.sendUsageMessage(channel, MessageType.CLEAR_CHAT);
             else message.delete().queue();
+            return;
         }
 
         if (cmd.equals("8ball")) {
             if (args.length >= 4) FortuneBall.sendFortuneMessage(channel);
             else UsageMessage.sendUsageMessage(channel, MessageType.FORTUNE);
+            return;
         }
 
         if (cmd.equals("server")) {
+            message.delete().queue();
             Server.sendServerBanner(channel, args);
+            return;
         }
 
         if (cmd.equals("report")) {
             Member reportedUser = message.getMentionedMembers().get(0);
             Report.sendReport(channel, args, reportedUser, member, badBoy);
+            return;
         }
 
         if (cmd.equals("reload")) {
             message.delete().queue();
             if (member.hasPermission(Permission.ADMINISTRATOR))
                 Reload.reloadPlugin(badBoy, channel);
+            return;
         }
 
         if (cmd.equals("broadcast") || cmd.equals("bc")) {
@@ -91,6 +100,7 @@ public class MessageEvent extends ListenerAdapter {
                     return;
                 }
             BroadCast.sendMessage(args, badBoy, channel);
+            return;
         }
 
         if (cmd.equals("stats")) {
@@ -100,6 +110,7 @@ public class MessageEvent extends ListenerAdapter {
                 return;
             }
             Stats.sendStatsMessage(channel, args, badBoy);
+            return;
         }
 
         if (cmd.equals("info")) {
@@ -112,6 +123,9 @@ public class MessageEvent extends ListenerAdapter {
             embedBuilder.setColor(Color.RED);
 
             channel.sendMessage(embedBuilder.build()).complete().delete().queueAfter(30, TimeUnit.SECONDS);
+            return;
         }
+
+        CustomCommands.sendCustomCommandMessages(channel, cmd, member.getAsMention(), badBoy);
     }
 }

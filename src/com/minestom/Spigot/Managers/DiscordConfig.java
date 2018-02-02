@@ -34,7 +34,10 @@ public class DiscordConfig {
         configStrings.put("donation.guildId", fileConfiguration.getString("donation.guildId"));
         configStrings.put("donation.channelId", fileConfiguration.getString("donation.channelId"));
         configStrings.put("vote.guildId", fileConfiguration.getString("vote.guildId"));
-        configStrings.put("vote.channelId", fileConfiguration.getString("vote.channelId"));
+        configStrings.put("vote.channelId", fileConfiguration.getString("vote.staff_help"));
+        configStrings.put("permissions.staff_help", fileConfiguration.getString("permissions.staff_help"));
+        configStrings.put("botStatus.state", fileConfiguration.getString("botStatus.state"));
+        configStrings.put("botStatus.what", fileConfiguration.getString("botStatus.what"));
     }
 
     public void reloadFile() {

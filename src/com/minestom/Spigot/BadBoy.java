@@ -7,6 +7,7 @@ import com.minestom.Spigot.Integrations.CraftingStore;
 import com.minestom.Spigot.Integrations.LiteBans;
 import com.minestom.Spigot.Integrations.Votifier;
 import com.minestom.Spigot.Managers.DiscordConfig;
+import com.minestom.Spigot.Managers.DiscordCustomCmd;
 import com.minestom.Spigot.Managers.LanguageManager;
 import com.minestom.Spigot.Managers.MessageManager;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BadBoy extends JavaPlugin {
 
     public boolean log = false;
+    public DiscordCustomCmd discordCustomCmd;
     private DiscordConfig discordConfig;
     private LanguageManager languageManager;
     private MessageManager messageManager;
@@ -27,6 +29,7 @@ public class BadBoy extends JavaPlugin {
 
         languageManager = new LanguageManager(this);
         discordConfig = new DiscordConfig(this);
+        discordCustomCmd = new DiscordCustomCmd(this);
         messageManager = new MessageManager(this, languageManager);
 
         saveDefaultConfig();
@@ -59,6 +62,7 @@ public class BadBoy extends JavaPlugin {
         reloadConfig();
         languageManager.reloadFile();
         discordConfig.reloadFile();
+        discordCustomCmd.reloadFile();
     }
 
     private void setupCommands() {

@@ -1,3 +1,5 @@
+# use -info inside the channel you want to send the message
+# of each section the get the id
 reports:
   guildId: '123456789'
   channelId: '123456789'
@@ -7,8 +9,18 @@ donation:
 vote:
   guildId: '123456789'
   channelId: '123456789'
+punishments:
+  guildId: '123456789'
+  channelId: '123456789'
+permissions:
+  staff_help: 'administrator'
 
 defaultIp: 'play.my-server.com'
+
+botStatus:
+  # available states PLAYING, WATCHING, STREAMING, DEFAULT
+  state: 'playing'
+  what: 'with a dildo'
 
 server: 'Survival'
 token: 'super secret token'

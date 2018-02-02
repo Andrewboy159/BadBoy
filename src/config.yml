@@ -2,5 +2,9 @@ Integrations:
   CraftingStore: false
   AdvancedBan: false
   LiteBans: false
+  Votifier: false
+
+CommandPrefix: '-'
+
 LogDiscordActions: true
 Version: 1
