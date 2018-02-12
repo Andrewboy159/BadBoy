@@ -34,7 +34,13 @@ public class DiscordConfig {
         configStrings.put("donation.guildId", fileConfiguration.getString("donation.guildId"));
         configStrings.put("donation.channelId", fileConfiguration.getString("donation.channelId"));
         configStrings.put("vote.guildId", fileConfiguration.getString("vote.guildId"));
-        configStrings.put("vote.channelId", fileConfiguration.getString("vote.staff_help"));
+        configStrings.put("vote.channelId", fileConfiguration.getString("vote.channelId"));
+        configStrings.put("punishments.guildId", fileConfiguration.getString("punishments.guildId"));
+        configStrings.put("punishments.channelId", fileConfiguration.getString("punishments.channelId"));
+        configStrings.put("minecraft-chat.guildId", fileConfiguration.getString("minecraft-chat.guildId"));
+        configStrings.put("minecraft-chat.channelId", fileConfiguration.getString("minecraft-chat.channelId"));
+        configStrings.put("discord-minecraft-chat.guildId", fileConfiguration.getString("discord-minecraft-chat.guildId"));
+        configStrings.put("discord-minecraft-chat.channelId", fileConfiguration.getString("discord-minecraft-chat.channelId"));
         configStrings.put("permissions.staff_help", fileConfiguration.getString("permissions.staff_help"));
         configStrings.put("botStatus.state", fileConfiguration.getString("botStatus.state"));
         configStrings.put("botStatus.what", fileConfiguration.getString("botStatus.what"));

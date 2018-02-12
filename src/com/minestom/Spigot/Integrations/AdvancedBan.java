@@ -1,6 +1,6 @@
 package com.minestom.Spigot.Integrations;
 
-import com.minestom.DiscordBot.Utilities.MessageSender;
+import com.minestom.Discord.Utilities.MessageSender;
 import com.minestom.Spigot.BadBoy;
 import me.leoko.advancedban.bukkit.event.PunishmentEvent;
 import me.leoko.advancedban.utils.Punishment;
@@ -9,18 +9,18 @@ import org.bukkit.event.Listener;
 
 public class AdvancedBan implements Listener {
 
-    private BadBoy plugin;
+    private MessageSender messageSender;
 
-    public AdvancedBan(BadBoy plugin) {
-        this.plugin = plugin;
+    public AdvancedBan(MessageSender messageSender){
+        this.messageSender = messageSender;
     }
 
     @EventHandler
     public void onPunish(PunishmentEvent event) {
         Punishment punishment = event.getPunishment();
 
-        MessageSender.sendPunishmentMessage(punishment.getName(), punishment.getOperator(),
-                punishment.getType().getName(), punishment.getReason(), plugin);
+        messageSender.sendPunishmentMessage(punishment.getName(), punishment.getOperator(),
+                punishment.getType().getName(), punishment.getReason());
     }
 
 }

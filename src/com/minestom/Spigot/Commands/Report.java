@@ -1,6 +1,6 @@
 package com.minestom.Spigot.Commands;
 
-import com.minestom.DiscordBot.Utilities.MessageSender;
+import com.minestom.Discord.Utilities.MessageSender;
 import com.minestom.Spigot.BadBoy;
 import com.minestom.Spigot.Managers.LanguageManager;
 import com.minestom.Spigot.Managers.MessageManager;
@@ -12,14 +12,14 @@ import org.bukkit.command.CommandSender;
 
 public class Report implements CommandExecutor {
 
-    private BadBoy plugin;
     private MessageManager messageManager;
     private LanguageManager languageManager;
+    private MessageSender messageSender;
 
-    public Report(BadBoy plugin, MessageManager messageManager, LanguageManager languageManager) {
-        this.plugin = plugin;
+    public Report(MessageManager messageManager, LanguageManager languageManager, MessageSender messageSender) {
         this.messageManager = messageManager;
         this.languageManager = languageManager;
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Report implements CommandExecutor {
 
             if (Bukkit.getPlayer(args[0]) == null) {
                 messageManager.sendMessage(sender, languageManager.getMessage("mc-playerNotOnline"), PrefixType.REPORTS);
-                //return true;
+                return true;
             }
 
             StringBuilder reason = new StringBuilder();
@@ -40,11 +40,11 @@ public class Report implements CommandExecutor {
                 reason.append(args[i]).append(" ");
             }
 
-            MessageSender.sendReportMessage(args[0], sender.getName(), reason.toString().trim(), plugin, true);
+            messageSender.sendReportMessage(args[0], sender.getName(), reason.toString().trim(), true);
             messageManager.sendMessage(sender, languageManager.getMessage("mc-reports_sent"), PrefixType.REPORTS);
             Bukkit.getOnlinePlayers().forEach(player -> {
                 if (player.hasPermission("badboy.reports.see"))
-                    messageManager.sendMessage(sender, languageManager.getMessage("mc-reports_receive")
+                    messageManager.sendMessage(player, languageManager.getMessage("mc-reports_receive")
                             .replace("{reporter}", sender.getName()).replace("{reported}", args[0])
                             .replace("{reason}", reason), PrefixType.REPORTS);
             });

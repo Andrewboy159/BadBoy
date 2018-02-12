@@ -5,7 +5,6 @@ mc-playerNotOnline: '&7This player is not &aOnline &7please try again.'
 mc-reports_prefix: '&e&lREPORTS: &7'
 mc-broadcast_prefix: '&e&lBROADCAST: &7'
 
-
 mc-reports_wrongUsage: '&7Correct Usage: /report <player> <reason>'
 mc-reports_sent: '&7Your report has been sent to the staff and will be reviewed.'
 mc-reports_receive: '&a{reporter} &7has reported &a{reported}. &cReason: &7{reason}'
@@ -20,6 +19,17 @@ d-reports_reported_user: 'Reported User'
 d-reports_reported_by: 'Reported By'
 d-reports_reason: 'Reason'
 d-reports_server: 'Server Issued'
+
+d-donations_user: 'User'
+d-donations_package: 'Package'
+d-donations_price: 'Price'
+d-donations_footer: 'Visit our store: store.my-server.net'
+
+d-punishments_user: 'Punished Member'
+d-punishments_operator: 'Staff Member'
+d-punishments_type: 'Type'
+d-punishments_reason: 'Reason'
+d-punishments_footer: 'Remember to follow the rules.'
 
 d-reload_plugin: 'The plugin''s config and language had been successfully reloaded.'
 

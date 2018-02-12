@@ -3,8 +3,12 @@ Integrations:
   AdvancedBan: false
   LiteBans: false
   Votifier: false
+  Chat: false
 
 CommandPrefix: '-'
 
+ChatFormat:
+  MinecraftDiscord: '{playerName} > {message}'
+  DiscordMinecraft: '&b[Discord] &e{userName} > &7{message}'
 LogDiscordActions: true
 Version: 1

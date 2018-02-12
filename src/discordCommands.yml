@@ -1,0 +1,8 @@
+#  This are custom commands for the bot.
+#  First is going the command name without the prefix then a message.
+#
+#   store: 'The store is store.my-server.net {user}.'
+#
+#  Remember the commands are case sensitive.
+#  Available place holders are: {user}, more coming soon...
+store: The store is store.my-server.net {user}.

@@ -5,9 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DiscordCustomCmd {
 
@@ -21,14 +19,7 @@ public class DiscordCustomCmd {
         configStrings = new HashMap<>();
         file = new File(plugin.getDataFolder(), "discordCommands.yml");
         fileConfiguration = new YamlConfiguration();
-        fileConfiguration.options().header(" This are custom commands for the bot.\n" +
-                " First is going the command name without the prefix then a message.\n " +
-                " \n  store: 'The store is store.my-server.net {user}.'\n \n" +
-                " Remember the commands are case sensitive.\n" +
-                " Available place holders are: {user}, more coming soon...");
-        fileConfiguration.addDefault("store", "The store is store.my-server.net {user}.");
-        fileConfiguration.options().copyDefaults(true);
-        saveConfig();
+        if (!file.exists()) plugin.saveResource("discordCommands.yml", false);
         reloadFile();
     }
 
@@ -46,7 +37,7 @@ public class DiscordCustomCmd {
         }
     }
 
-    private void saveConfig(){
+    private void saveConfig() {
         try {
             fileConfiguration.save(file);
             loadConfigMap();
@@ -61,6 +52,12 @@ public class DiscordCustomCmd {
 
     public List<String> getStringList(String path) {
         return (List<String>) configStrings.get(path);
+    }
+
+    public Set<String> toList() {
+        Set<String> stringSet = new HashSet<>();
+        configStrings.forEach((o, o2) -> stringSet.add("-" + o));
+        return stringSet;
     }
 
 }

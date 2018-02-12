@@ -1,6 +1,6 @@
 package com.minestom.Spigot.Integrations;
 
-import com.minestom.DiscordBot.Utilities.MessageSender;
+import com.minestom.Discord.Utilities.MessageSender;
 import com.minestom.Spigot.BadBoy;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
@@ -10,16 +10,17 @@ import org.bukkit.event.Listener;
 
 public class Votifier implements Listener {
 
-    private BadBoy plugin;
+    private MessageSender messageSender;
 
-    public Votifier(BadBoy plugin) {
-        this.plugin = plugin;
+    public Votifier(MessageSender messageSender){
+        this.messageSender = messageSender;
     }
+
 
     @EventHandler(priority= EventPriority.NORMAL)
     public void onVote(VotifierEvent event) {
         Vote vote = event.getVote();
-        MessageSender.sendVoteMessage(vote.getUsername(), vote.getServiceName(), plugin);
+        messageSender.sendVoteMessage(vote.getUsername(), vote.getServiceName());
     }
 
 }
