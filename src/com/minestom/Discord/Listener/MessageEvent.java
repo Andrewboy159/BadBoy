@@ -4,6 +4,7 @@ import com.minestom.Discord.BadBoyBot;
 import com.minestom.Discord.Commands.*;
 import com.minestom.Discord.Utilities.MessageSender;
 import com.minestom.Discord.Utilities.MessageType;
+import com.minestom.Discord.Data.ShopData;
 import com.minestom.Discord.Utilities.UsageMessage;
 import com.minestom.Spigot.BadBoy;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -22,12 +23,17 @@ import java.util.concurrent.TimeUnit;
 public class MessageEvent extends ListenerAdapter {
 
     private BadBoy badBoy;
+    private BadBoyBot badBoyBot;
     private Report report;
+    private Shop shop;
 
-    public MessageEvent(BadBoy badBoy, MessageSender messageSender){
+    public MessageEvent(BadBoy badBoy, BadBoyBot badBoyBot, MessageSender messageSender, Shop shop){
         this.badBoy = badBoy;
+        this.badBoyBot = badBoyBot;
         report = new Report(messageSender);
+        this.shop = shop;
     }
+
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
@@ -80,6 +86,13 @@ public class MessageEvent extends ListenerAdapter {
         if (cmd.equals("server")) {
             message.delete().queue();
             Server.sendServerBanner(channel, args);
+            return;
+        }
+
+        if (cmd.equals("shop")) {
+            message.delete().queue();
+            badBoyBot.getDataMap().put(member.getUser(), new ShopData());
+            shop.sendMainShopDm(member.getUser());
             return;
         }
 

@@ -46,7 +46,7 @@ public class BadBoy extends JavaPlugin {
         log = getConfig().getBoolean("LogDiscordActions");
 
         try {
-            BadBoyBot.main(discordConfig.getString("token"), this, messageSender);
+            new BadBoyBot().main(discordConfig.getString("token"), this, messageSender);
             getLogger().info("The bot is online and its ready to use.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,7 +104,7 @@ public class BadBoy extends JavaPlugin {
             getLogger().info("AdvancedBan integration enabled.");
         }
         if (getConfig().getBoolean("Integrations.LiteBans") && pluginManager.isPluginEnabled("LiteBans")) {
-            new LiteBans(this);
+            new LiteBans(messageSender);
             getLogger().info("LiteBans integration enabled.");
         }
         if (getConfig().getBoolean("Integrations.Votifier") && pluginManager.isPluginEnabled("Votifier")) {
