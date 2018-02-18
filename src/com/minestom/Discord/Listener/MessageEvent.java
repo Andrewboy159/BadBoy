@@ -26,12 +26,14 @@ public class MessageEvent extends ListenerAdapter {
     private BadBoyBot badBoyBot;
     private Report report;
     private Shop shop;
+    private Gamble gamble;
 
-    public MessageEvent(BadBoy badBoy, BadBoyBot badBoyBot, MessageSender messageSender, Shop shop){
+    public MessageEvent(BadBoy badBoy, BadBoyBot badBoyBot, MessageSender messageSender, Shop shop, Gamble gamble){
         this.badBoy = badBoy;
         this.badBoyBot = badBoyBot;
         report = new Report(messageSender);
         this.shop = shop;
+        this.gamble = gamble;
     }
 
     @Override
@@ -123,6 +125,14 @@ public class MessageEvent extends ListenerAdapter {
         if (cmd.equals("info")) {
             message.delete().queue();
             Info.sendStatsMessage(channel, guild.getOwner().getUser().getName(), guild.getMembers().size(), guild.getRegionRaw());
+            return;
+        }
+
+        if (cmd.equals("gamble")) {
+            message.delete().queue();
+            if (args.length != 2) return;
+            badBoyBot.getDataMap().put(member.getUser(), new ShopData());
+            gamble.gambleMoney(event.getAuthor(), event.getChannel(), args[1]);
             return;
         }
 

@@ -1,5 +1,6 @@
 package com.minestom.Discord;
 
+import com.minestom.Discord.Commands.Gamble;
 import com.minestom.Discord.Commands.Shop;
 import com.minestom.Discord.Listener.DiscordToMinecraft;
 import com.minestom.Discord.Listener.MessageEvent;
@@ -25,6 +26,7 @@ public class BadBoyBot {
     public static List<String> fortune;
     private Map<User, ShopData> dataMap;
     private Shop shop;
+    private Gamble gamble;
     public static JDA api;
 
     public void main(String token, BadBoy plugin, MessageSender messageSender) throws Exception {
@@ -48,10 +50,11 @@ public class BadBoyBot {
         fortune = Arrays.asList("I don't know...", "Yeah, 100%", "No doubt", "I don't think so...", "One of my gods says \"NO\" ");
         this.dataMap = new HashMap<>();
         this.shop = new Shop(this);
+        this.gamble = new Gamble(this);
     }
 
     private void registerEvents(BadBoy plugin, MessageSender messageSender) {
-        api.addEventListener(new MessageEvent(plugin, this, messageSender, shop));
+        api.addEventListener(new MessageEvent(plugin, this, messageSender, shop, gamble));
         api.addEventListener(new DiscordToMinecraft(plugin));
         api.addEventListener(new OnReaction(this, shop));
     }
