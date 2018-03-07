@@ -22,7 +22,7 @@ public class Gamble {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor(user.getName(), null, user.getAvatarUrl());
 
-        if (StringUtils.isNumeric(coin)) {
+        if (!StringUtils.isNumeric(coin)) {
             embedBuilder.setColor(Color.RED);
             embedBuilder.setDescription(":x: You need to enter a valid number. :x:");
             channel.sendMessage(embedBuilder.build()).complete();

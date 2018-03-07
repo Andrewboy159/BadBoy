@@ -106,7 +106,7 @@ public class MessageEvent extends ListenerAdapter {
 
         if (cmd.equals("reload")) {
             message.delete().queue();
-            if (member.hasPermission(Permission.ADMINISTRATOR))
+            //if (member.hasPermission(Permission.ADMINISTRATOR))
                 Reload.reloadPlugin(badBoy, channel);
             return;
         }
